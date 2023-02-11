@@ -1,5 +1,5 @@
 class BlockPalette{
-    static var EMPTY = [
+    static var EMPTY = ImmutableList([
         "",
         "",
         "",
@@ -16,8 +16,8 @@ class BlockPalette{
         "",
         "",
         ""
-    ];
-    static var COLOUR_WOOL = [
+    ]);
+    static var COLOUR_WOOL = ImmutableList([
         "white_wool",
         "light_gray_wool",
         "gray_wool",
@@ -34,8 +34,8 @@ class BlockPalette{
         "purple_wool",
         "magenta_wool",
         "pink_wool"
-    ];
-    static var COLOUR = [
+    ]);
+    static var COLOUR = ImmutableList([
         "white",
         "light_gray",
         "gray",
@@ -52,8 +52,8 @@ class BlockPalette{
         "purple",
         "magenta",
         "pink"
-    ];
-    static var GRAYSCALE = [
+    ]);
+    static var GRAYSCALE = ImmutableList([
         "snow_block",
         "calcite",
         "polished_diorite",
@@ -70,8 +70,8 @@ class BlockPalette{
         "black_concrete_powder",
         "coal_block",
         "black_concrete"
-    ];
-    static var PINK_DARK = [
+    ]);
+    static var PINK_DARK = ImmutableList([
         "pink_concrete",
         "magenta_concrete_powder",
         "magenta_wool",
@@ -88,8 +88,8 @@ class BlockPalette{
         "obsidian",
         "obsidian",
         "black_concrete"
-    ];
-    static var BLUE_DARK = [
+    ]);
+    static var BLUE_DARK = ImmutableList([
         "diamond_block",
         "light_blue_wool",
         "light_blue_concrete",
@@ -106,8 +106,8 @@ class BlockPalette{
         "sculk",
         "coal_block",
         "black_concrete"
-    ];
-    static var YELLOW_DARK = [
+    ]);
+    static var YELLOW_DARK = ImmutableList([
         "gold_block",
         "yellow_concrete_powder",
         "horn_coral_block",
@@ -124,8 +124,8 @@ class BlockPalette{
         "black_concrete_powder",
         "coal_block",
         "black_concrete"
-    ];
-    static var BROWN_LIGHT = [
+    ]);
+    static var BROWN_LIGHT = ImmutableList([
         "moss_block",
         "polished_granite",
         "granite",
@@ -142,8 +142,8 @@ class BlockPalette{
         "jungle_wood",
         "mangrove_wood",
         "mangrove_wood"
-    ];
-    static var BROWN_DARK = [
+    ]);
+    static var BROWN_DARK = ImmutableList([
         "moss_block",
         "polished_granite",
         "granite",
@@ -160,8 +160,8 @@ class BlockPalette{
         "brown_terracotta",
         "brown_terracotta",
         "gray_terracotta"
-    ];
-    static var BLUE_RED = [
+    ]);
+    static var BLUE_RED = ImmutableList([
         "blue_concrete",
         "lapis_block",
         "tube_coral_block",
@@ -178,8 +178,8 @@ class BlockPalette{
         "red_glazed_terracotta",
         "red_concrete_powder",
         "fire_coral_block"
-    ];
-    static var COOL_MAGMA = [
+    ]);
+    static var COOL_MAGMA = ImmutableList([
         "snow_block",
         "gold_block",
         "yellow_wool",
@@ -196,8 +196,8 @@ class BlockPalette{
         "cracked_deepslate_tiles",
         "cracked_polished_blackstone_bricks",
         "blackstone"
-    ];
-    static var FROZEN_MAGMA = [
+    ]);
+    static var FROZEN_MAGMA = ImmutableList([
         "snow_block",
         "diamond_block",
         "diamond_block",
@@ -214,8 +214,8 @@ class BlockPalette{
         "blackstone",
         "blackstone",
         "blackstone"
-    ];
-    static var MAGMA = [
+    ]);
+    static var MAGMA = ImmutableList([
         "gold_block",
         "yellow_wool",
         "raw_gold_block",
@@ -232,8 +232,8 @@ class BlockPalette{
         "cracked_nether_bricks",
         "coal_block",
         "coal_block"
-    ];
-    static var OBSIDIAN = [
+    ]);
+    static var OBSIDIAN = ImmutableList([
         "snow_block",
         "pink_concrete_powder",
         "purpur_block",
@@ -250,8 +250,8 @@ class BlockPalette{
         "obsidian",
         "obsidian",
         "coal_block"
-    ];
-    static var GRAY = [
+    ]);
+    static var GRAY = ImmutableList([
         "dripstone_block",
         "dripstone_block",
         "iron_ore",
@@ -268,8 +268,8 @@ class BlockPalette{
         "black_concrete_powder",
         "black_wool",
         "coal_block"
-    ];
-    static var RAINBOW = [
+    ]);
+    static var RAINBOW = ImmutableList([
         "white_wool",
         "white_wool",
         "white_wool",
@@ -286,8 +286,8 @@ class BlockPalette{
         "yellow_wool",
         "orange_wool",
         "red_wool"
-    ];
-    static var DIRT = [
+    ]);
+    static var DIRT = ImmutableList([
         "smooth_stone",
         "light_gray_wool",
         "iron_ore",
@@ -304,8 +304,8 @@ class BlockPalette{
         "brown_terracotta",
         "gray_terracotta",
         "black_terracotta"
-    ];
-    static var CYAN_DARK = [
+    ]);
+    static var CYAN_DARK = ImmutableList([
         "snow_block",
         "white_wool",
         "calcite",
@@ -322,5 +322,5 @@ class BlockPalette{
         "blackstone",
         "black_concrete_powder",
         "coal_block"
-    ];
+    ]);
 }
