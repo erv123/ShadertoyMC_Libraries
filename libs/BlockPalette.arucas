@@ -1,4 +1,4 @@
-import * from util.collections;
+import * from util.Collections;
 class BlockPalette{
     static var EMPTY = ImmutableList([
         "",
