@@ -1,0 +1,39 @@
+import PerlinNoise, VoronoiNoise from util.Noise;
+import Vector3 from util.Vector;
+import BlockPalette from BlockPalette;
+
+// Set noise parameters
+perlin = new PerlinNoise(10);
+perlin.setFrequency(0.05);
+
+fun map(n: Number, aMax, aMin, bMin, bMax) {
+    return bMin + (n - aMin) * (bMax - bMin) / (aMax - aMin);
+}
+
+// Area iteration where the area is defined by the user in game
+// The first vector will be the absolute coordinates in the world
+// The second vector will be the normalized coordinates that go from -1 -1 -1 to 1 1 1 no matter the area size
+// The third will be local area coordinates that are 0 0 0 at area origin
+min = 1/0;
+max = -1/0;
+area(40, 100, 400, 100, 40, 100,fun(aPos, nPos, lPos) {
+    // Do whatever for this position
+
+    value = perlin.getValue(aPos.getX(),0.5,aPos.getZ());
+    value = map(value, -1.5,1.5, 0, 1);
+    value = Math.abs(value);
+    if(value > max) max = value;
+    if(value < min) min = value;
+
+    index = map(value, 0, 1, 15, 0).floor();
+    y = (nPos.getY()/2)+0.5;
+    lavaLevel = 0.5;
+    if(y<value)
+        place(aPos, BlockPalette.COOL_MAGMA[index]);
+    else if(y<lavaLevel && Math.mod(lPos.getY(),3)==1)
+        place(aPos,"red_stained_glass");
+    else
+        place(aPos, "air");
+});
+
+print("Min: " + min + " Max: " + max);

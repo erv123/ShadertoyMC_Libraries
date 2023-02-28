@@ -1,0 +1,53 @@
+import PerlinNoise, VoronoiNoise from util.Noise;
+import Vector3 from util.Vector;
+import BlockPalette from BlockPalette;
+
+// Set noise parameters
+perlin = new PerlinNoise(10);
+perlin.setFrequency(0.05);
+
+fun map(n: Number, aMax, aMin, bMin, bMax) {
+    return bMin + (n - aMin) * (bMax - bMin) / (aMax - aMin);
+}
+fun fadeFunction(number: Number): Number {
+    return (6 * number ^ 5) - (15 * number ^ 4) + (10 * number ^ 3);
+}
+// Area iteration where the area is defined by the user in game
+// The first vector will be the absolute coordinates in the world
+// The second vector will be the normalized coordinates that go from -1 -1 -1 to 1 1 1 no matter the area size
+// The third will be local area coordinates that are 0 0 0 at area origin
+min = 1/0;
+max = -1/0;
+/*
+    /shadertoy area origin 40 100 400 size 100 40 100
+*/
+area(40, 100, 400, 100, 40, 100,fun(aPos, nPos, lPos) {
+    // create terrain
+    value = perlin.getValue(aPos.getX(),0.5,aPos.getZ());
+    value = map(value, -1.5,1.5, 0, 1);
+    //value = Math.abs(value);
+    //value = fadeFunction(value);
+    if(value > max) max = value;
+    if(value < min) min = value;
+
+    index = map(value, 0, 1, 0, 15).floor();
+    y = (nPos.getY()/2)+0.5;
+    waterLevel = 0.4;
+    if(y<value)
+    place(aPos, BlockPalette.BROWN_DARK[index]);
+    else if(y<waterLevel)
+    place(aPos,"water");
+    else
+    place(aPos, "air");
+});
+
+area(40, 100, 400, 100, 40, 100,fun(aPos, nPos, lPos) {
+    // Set top block to moss
+    block = query(aPos,"block");
+    above = query(aPos.add(new Vector3(0,1,0)),"block");
+    denied = ["minecraft:air", "minecraft:water", "minecraft:moss_block"];
+    if(!denied.contains(block) && above == "minecraft:air")
+        place(aPos,"moss_block");
+});
+// For debug purposes
+print("Min: " + min + " Max: " + max);
