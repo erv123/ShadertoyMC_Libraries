@@ -1,3 +1,4 @@
+import Vector3 from util.Vector;
 class Spiral{
     var block: String = "stone";
     var origin: Vector3 = new Vector3(0,0,0);
