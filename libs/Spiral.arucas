@@ -1,0 +1,134 @@
+class Spiral{
+    var block: String = "stone";
+    var origin: Vector3 = new Vector3(0,0,0);
+    var radiusTo: Number = 5;
+    var radiusFrom: Number = 0;
+    var pitch: Number = 5;
+    var revolutions: Number = 3;
+    var angle: Number = 0;
+    var angleResolution: Number = 360;
+    var radialResolution: Number = 0.2;
+    var useSlabs: Boolean = false;
+    var useLambdas: Boolean = false;
+    var reverseDirection: Boolean = false;
+    var toLambda: Function = fun(currentRevolution){return 5;};
+    var fromLambda: Function = fun(currentRevolution){return 0;};
+    var state = ["[type=bottom]","[type=double]","[type=top]"];
+    Spiral(){
+    }
+
+    fun pitch(pitch: Number){
+        this.pitch = pitch;
+        return this;
+    }
+    fun origin(origin: Vector3){
+        this.origin = origin;
+        return this;
+    }
+    fun radiusTo(radiusTo: Number){
+        this.radiusTo = radiusTo;
+        return this;
+    }
+    fun radiusFrom(radiusFrom: Number){
+        this.radiusFrom = radiusFrom;
+        return this;
+    }
+    fun revolutions(revolutions: Number){
+        this.revolutions = revolutions;
+        return this;
+    }
+    fun angleResolution(angleResolution: Number){
+        this.angleResolution = angleResolution;
+        return this;
+    }
+    fun radialResolution(radialResolution: Number){
+        this.radialResolution = radialResolution;
+        return this;
+    }
+    fun block(block: String){
+        this.block = block;
+        return this;
+    }
+    fun angle(angle: Number){
+        this.angle = angle;
+        return this;
+    }
+    fun useSlabs(useSlabs: Boolean){
+        this.useSlabs = useSlabs;
+        return this;
+    }
+    fun useLambdas(useLambdas: Boolean){
+        this.useLambdas = useLambdas;
+        return this;
+    }
+    fun radiusToLambda(radiusToLambda: Function){
+        this.toLambda = radiusToLambda;
+        return this;
+    }
+    fun radiusFromLambda(radiusFromLambda: Function){
+        this.fromLambda = radiusFromLambda;
+        return this;
+    }
+    fun reverseDirection(reverseDirection: Boolean){
+        this.reverseDirection = reverseDirection;
+        return this;
+    }
+    fun place(){
+        currentRevolution = 0;
+        while(currentRevolution < this.revolutions){
+
+            angle = currentRevolution*360;
+            if(this.reverseDirection){
+                angle = -angle;
+            }
+            vector = Vector3.fromPolar(angle,this.angle);
+            rFrom = 0;
+            rTo = 0;
+            if(this.useLambdas){
+                rFrom = this.fromLambda(currentRevolution);
+                rTo = this.toLambda(currentRevolution);
+            }
+            else{
+                rFrom = this.radiusFrom;
+                rTo = this.radiusTo;
+            }
+            currentRadius = rFrom;
+            while(currentRadius < rTo){
+                localOrigin = this.origin.add(0,this.pitch*currentRevolution,0).add(0.5,0.5,0.5);
+                blockPos = vector.multiplyScalar(currentRadius).floor()+localOrigin.floor();
+                if(this.useSlabs){
+                    fraction = localOrigin.getY()-localOrigin.getY().floor();
+                    index = Math.floor(fraction*3);
+                    slab = this.block+this.state[index];
+                    place(blockPos,slab);
+                }
+                else {
+                    place(blockPos, this.block);
+                }
+                currentRadius = currentRadius + this.radialResolution;
+            }
+            currentRevolution = currentRevolution + (1/this.angleResolution);
+        }
+    }
+    fun clear(){
+        if(this.useLambdas){
+            rMax = 0;
+            currentRevolution = 0;
+            while(currentRevolution < this.revolutions){
+                rMax = Math.max(this.toLambda(currentRevolution),rMax);
+                currentRevolution = currentRevolution + (1/this.angleResolution);
+            }
+            origin = this.origin.subScalar(rMax);
+            size = this.origin.addScalar(rMax).add(0, Math.ceil(this.pitch * this.revolutions),0).sub(origin);
+
+            area(origin, size, fun(aPos) {
+                place(aPos, "air");
+            });
+        }
+        else {
+            area(this.origin.subScalar(this.radiusTo), this.origin.addScalar(this.radiusTo).add(0, Math.ceil(this.pitch * this.revolutions), 0), fun(aPos) {
+                place(aPos, "air");
+            });
+        }
+    }
+}
