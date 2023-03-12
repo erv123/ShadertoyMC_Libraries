@@ -1,0 +1,87 @@
+import Vector3 from util.Vector;
+
+class StreamlineGenerator{
+
+    var streamlines: List = [];
+    var angleVectorGetter: Function;
+    var stopCondition: Function;
+    var stepSize: Number;
+
+    StreamlineGenerator(angleVectorGetter: Function, stopCondition: Function, stepSize: Number){
+        this.angleVectorGetter = angleVectorGetter;
+        this.stopCondition = stopCondition;
+        this.stepSize = stepSize;
+    }
+
+    fun fillArea(pos1: Vector3, pos2: Vector3, numberOfStreamlines: Number, integrateBothWays: Boolean, clear: Boolean){
+        min = Vector3.min(pos1, pos2);
+        max = Vector3.max(pos1, pos2);
+        rangeVec = max-min;
+        if(clear) area(min.subScalar(1), (max-min).addScalar(2), fun(aPos){place(aPos,"air");});
+        for(i = 0; i < numberOfStreamlines; i++){
+            seed = new Vector3(random(rangeVec.getX()), random(rangeVec.getY()), random(rangeVec.getZ()))+min;
+            this.streamlines.append(this.integrate(seed, integrateBothWays));
+        }
+    }
+
+    fun integrate(seed: Vector3, bothWays: Boolean){
+        pos = seed;
+        streamline = new Streamline(seed);
+        while(!stopCondition(pos, streamline.getLength(), streamline.getNumberOfPoints())){
+            pos = pos + angleVectorGetter(pos).multiplyScalar(this.stepSize);
+            streamline.addPoint(pos,true,this.stepSize);
+        }
+        if(bothWays){
+            pos = seed;
+            while(!stopCondition(pos, streamline.getLength(), streamline.getNumberOfPoints())){
+                pos = pos - angleVectorGetter(pos).multiplyScalar(this.stepSize);
+                streamline.addPoint(pos,false,this.stepSize);
+            }
+        }
+        return streamline;
+    }
+
+    fun executeAll(lambda: Function){
+        foreach (streamline : this.streamlines) streamline.execute(lambda);
+    }
+}
+
+class Streamline{
+
+    var points: List = [];
+    var length: Number;
+    var numberOfPoints: Number;
+    var seed: Vector3;
+
+    Streamline(seed: Vector3){
+        this.seed = seed;
+        this.points.append(seed);
+        this.numberOfPoints = 1;
+        this.length = 0;
+    }
+
+    fun addPoint(point: Vector3, side: Boolean, segmentLength: Number){
+        this.length = this.length + segmentLength;
+        this.numberOfPoints++;
+        if(side) this.points.append(point);
+        else this.points.prepend(point);
+    }
+
+    fun getPoints(){
+        return this.points;
+    }
+
+    fun getLength(){
+        return this.length;
+    }
+
+    fun getNumberOfPoints(){
+        return this.numberOfPoints;
+    }
+
+    fun execute(lambda: Function){
+        foreach (point:this.points){
+            lambda(point);
+        }
+    }
+}
