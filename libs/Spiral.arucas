@@ -110,6 +110,7 @@ class Spiral{
             }
             currentRevolution = currentRevolution + (1/this.angleResolution);
         }
+        return this;
     }
     fun clear(){
         if(this.useLambdas){
@@ -131,5 +132,6 @@ class Spiral{
                 place(aPos, "air");
             });
         }
+        return this;
     }
 }
